@@ -55,7 +55,7 @@ build_script:
   - 7z a %APPVEYOR_BUILD_FOLDER%\libvnc.zip %APPVEYOR_BUILD_FOLDER%\*.dll %APPVEYOR_BUILD_FOLDER%\*.exe %APPVEYOR_BUILD_FOLDER%\*.lib -r
 
 artifacts:
-  - path: %APPVEYOR_BUILD_FOLDER%\libvnc.zip
+  - path: %APPVEYOR_BUILD_FOLDER%/libvnc.zip
     name: libvnc
 
 
