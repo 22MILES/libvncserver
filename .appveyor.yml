@@ -14,15 +14,15 @@ install:
   - move zlib-1.2.8 zlib
   - cd zlib
   - cmake .
-  - cmake --build .
+  - cmake --build . --config Release
   - cd ..
   # libPNG
   - curl -fsSL -o libpng.tar.gz http://prdownloads.sourceforge.net/libpng/libpng-1.6.28.tar.gz?download
   - 7z x libpng.tar.gz -so | 7z x -si -ttar > nul
   - move libpng-1.6.28 libpng
   - cd libpng
-  - cmake . -DZLIB_INCLUDE_DIR=..\zlib -DZLIB_LIBRARY=..\zlib\debug\zlibstaticd.lib
-  - cmake --build .
+  - cmake . -DZLIB_INCLUDE_DIR=..\zlib -DZLIB_LIBRARY=..\zlib\release\zlibstatic.lib
+  - cmake --build . --config Release
   - cd ..
   # Berkeley DB - required by SASL
   - curl -fsSL -o db-4.1.25.tar.gz http://download.oracle.com/berkeley-db/db-4.1.25.tar.gz
@@ -49,10 +49,10 @@ install:
 build_script:
   - mkdir build
   - cd build 
-  - cmake .. -DZLIB_INCLUDE_DIR=..\deps\zlib -DZLIB_LIBRARY=..\deps\zlib\debug\zlibstaticd.lib -DPNG_PNG_INCLUDE_DIR=..\deps\libpng -DPNG_LIBRARY=..\deps\libpng\debug\libpng16_staticd.lib -D SASL2_INCLUDE_DIR=c:\cmu\include -D LIBSASL2_LIBRARIES=c:\cmu\lib\libsasl.lib ..
-  - cmake --build .
-  - ctest -C Debug --output-on-failure
-  - 7z a ..\libvnc.zip c:\OpenSSL-Win32\
+  - cmake .. -DZLIB_INCLUDE_DIR=..\deps\zlib -DZLIB_LIBRARY=..\deps\zlib\release\zlibstatic.lib -DPNG_PNG_INCLUDE_DIR=..\deps\libpng -DPNG_LIBRARY=..\deps\libpng\release\libpng16_static.lib -D SASL2_INCLUDE_DIR=c:\cmu\include -D LIBSASL2_LIBRARIES=c:\cmu\lib\libsasl.lib ..
+  - cmake --build . --config Release
+  - ctest -C Release --output-on-failure
+  - 7z a ..\libvnc.zip %APPVEYOR_BUILD_FOLDER%\*.dll %APPVEYOR_BUILD_FOLDER%\*.exe %APPVEYOR_BUILD_FOLDER%\*.lib -r
 
 artifacts:
   - path: libvnc.zip
